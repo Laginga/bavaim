@@ -3,13 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shle
 local Window = Rayfield:CreateWindow({
 	Name = "Counter Blox Aim Tools",
 	LoadingTitle = "By Bav",
-	LoadingSubtitle = "",
-	ConfigurationSaving = {
-		Enabled = true,
-		FolderName = nil, -- Create a custom folder for your hub/game
-		FileName = "Counter Aim"
-	},
-       
+	LoadingSubtitle = "Nhà Phát Hành Khuyến Cáo: Hạn Chế Dùng Hack !",
 	KeySystem = true, -- Set this to true to use our key system
 	KeySettings = {
 		Title = "Counter Blox Aim Tools",
