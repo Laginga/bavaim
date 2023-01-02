@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shle
 local Window = Rayfield:CreateWindow({
 	Name = "Counter Blox Aim Tools",
 	LoadingTitle = "By Bav",
-	LoadingSubtitle = "Nếu Cảm Thấy mệt Quá, em cho mượn bờ vai, thì thầm em nói nhỏ, mẹ mày béo !!",
+	LoadingSubtitle = "",
 	ConfigurationSaving = {
 		Enabled = true,
 		FolderName = nil, -- Create a custom folder for your hub/game
@@ -25,10 +25,10 @@ local Tab = Window:CreateTab("Main", 5777075128) -- Title, Image
 
 
 local Section = Tab:CreateSection("Aimcount")
-local Label = Tab:CreateLabel("Tools Version: 0.1")
+local Label = Tab:CreateLabel("Tools Version: 1.0")
 local Label = Tab:CreateLabel("Tools Owner: @BavNguyen")
 local Button = Tab:CreateButton({
-	Name = "Feture ( 1 )",
+	Name = "Feture ( FOV Hidden )",
 	Callback = function()
         Rayfield:Notify({
             Title = "Feture ( 1 )",
@@ -413,7 +413,7 @@ return ValiantAimHacks
 	end,
 })
 local Button = Tab:CreateButton({
-	Name = "Feture ( 2 )",
+	Name = "Feture ( Head Aim )",
 	Callback = function()
         Rayfield:Notify({
             Title = "Feture ( 2 )",
@@ -459,5 +459,108 @@ local Button = Tab:CreateButton({
             end))
             
 
+	end,
+})
+local Button = Tab:CreateButton({
+	Name = "Feture ( Aimbot )",
+	Callback = function()
+		Rayfield:Notify({
+            Title = "Feture ( 3 )",
+            Content = "Succsesfuly !",
+            Duration = 4.5,
+            Image = 6967081092,
+        })
+        local dwCamera = workspace.CurrentCamera
+local dwRunService = game:GetService("RunService")
+local dwUIS = game:GetService("UserInputService")
+local dwEntities = game:GetService("Players")
+local dwLocalPlayer = dwEntities.LocalPlayer
+local dwMouse = dwLocalPlayer:GetMouse()
+
+local settings = {
+Aimbot = true,
+Aiming = false,
+Aimbot_AimPart = "Head",
+Aimbot_TeamCheck = true,
+Aimbot_Draw_FOV = true,
+Aimbot_FOV_Radius = 200,
+Aimbot_FOV_Color = Color3.fromRGB(255,255,255)
+}
+
+
+dwUIS.InputBegan:Connect(function(i)
+if i.UserInputType == Enum.UserInputType.MouseButton1 then
+    settings.Aiming = true
+end
+end)
+
+dwUIS.InputEnded:Connect(function(i)
+if i.UserInputType == Enum.UserInputType.MouseButton1 then
+    settings.Aiming = false
+end
+end)
+
+dwRunService.RenderStepped:Connect(function()
+
+local dist = math.huge
+local closest_char = nil
+
+if settings.Aiming then
+
+    for i,v in next, dwEntities:GetChildren() do 
+
+        if v ~= dwLocalPlayer and
+        v.Character and
+        v.Character:FindFirstChild("HumanoidRootPart") and
+        v.Character:FindFirstChild("Humanoid") and
+        v.Character:FindFirstChild("Humanoid").Health > 0 then
+
+            if settings.Aimbot_TeamCheck == true and
+            v.Team ~= dwLocalPlayer.Team or
+            settings.Aimbot_TeamCheck == false then
+
+                local char = v.Character
+                local char_part_pos, is_onscreen = dwCamera:WorldToViewportPoint(char[settings.Aimbot_AimPart].Position)
+
+                if is_onscreen then
+
+                    local mag = (Vector2.new(dwMouse.X, dwMouse.Y) - Vector2.new(char_part_pos.X, char_part_pos.Y)).Magnitude
+
+                    if mag < dist and mag < settings.Aimbot_FOV_Radius then
+
+                        dist = mag
+                        closest_char = char
+
+                    end
+                end
+            end
+        end
+    end
+
+    if closest_char ~= nil and
+    closest_char:FindFirstChild("HumanoidRootPart") and
+    closest_char:FindFirstChild("Humanoid") and
+    closest_char:FindFirstChild("Humanoid").Health > 0 then
+
+        dwCamera.CFrame = CFrame.new(dwCamera.CFrame.Position, closest_char[settings.Aimbot_AimPart].Position)
+    end
+end
+end)
+	end,
+})
+local Slider = Tab:CreateSlider({
+	Name = "Feture ( Aimbot Smoosh )",
+	Range = {0, 100},
+	Increment = 8,
+	Suffix = "Smoosh",
+	CurrentValue = 0,
+	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value,s)
+		Rayfield:Notify({
+            Title = "Feture ( 3 )",
+            Content = "Succsesfuly , Smoosh Adjusted",
+            Duration = 1.5,
+            Image = 6967081092,
+        })
 	end,
 })
